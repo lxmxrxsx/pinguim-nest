@@ -12,6 +12,7 @@ export class PinguimService {
 
   async create(createPinguimDto: CreatePinguimDto): Promise<Pinguim> {
     const createdPinguim = new this.pinguimModel(createPinguimDto)
+    console.log('createdPinguim', createdPinguim)
     return createdPinguim.save()
   }
 
