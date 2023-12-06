@@ -1,15 +1,25 @@
 import { Module } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
-import { PinguimController } from './endpoint/pinguim.controller'
-import { PinguimRepositoryImpl } from '../infra/pinguim.repositoryImpl'
-import { Pinguim, PinguimSchema } from '../schemas/pinguim.schema'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Pinguimpg } from '../schemas/pinguimpg.entity'
+import { PinguimpgController } from './endpoint/pinguimpg.controller'
+import { PinguimpgService } from '../infra/pinguimpg.service'
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nestApp'),
-    MongooseModule.forFeature([{ name: Pinguim.name, schema: PinguimSchema }]),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      password: '',
+      username: 'le',
+      entities: [Pinguimpg],
+      database: 'pinguim',
+      synchronize: true,
+      logging: true,
+    }),
+    TypeOrmModule.forFeature([Pinguimpg]),
   ],
-  controllers: [PinguimController],
-  providers: [PinguimRepositoryImpl],
+  controllers: [PinguimpgController],
+  providers: [PinguimpgService],
 })
 export class AppModule {}
